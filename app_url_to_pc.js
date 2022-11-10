@@ -186,6 +186,7 @@
     // window.onload = function() {
     let currentUrl = window.location.href
     let newUrl = getPCUrl(currentUrl)
+
     if (newUrl) {
         window.location.href=newUrl
     }

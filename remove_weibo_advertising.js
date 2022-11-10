@@ -1,19 +1,40 @@
+// ==UserScript==
+// @name         微博-广告-移除
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  移除浏览关注用户的微博时夹杂的广告
+// @author       XiGuaShu
+// @match        https://weibo.com/*
+// @run-at document-end
+// ==/UserScript==
 
 (function() {
     'use strict';
 
-    setInterval(function () {
-        let scroller = document.getElementById('scroller')
-        if (scroller != undefined) {
-            let content = scroller.children[0]
-            let items = content.children
-            items.forEach(element => {
-                let adElement = element.getElementsByClassName('wbpro-ad-tag')
-                if (adElement.length != 0 && element.style.display != 'none') {
-                    console.log(adElement)
-                    element.style.display = 'none'
+    const originOpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function (_, url) {
+        if (url.search("/ajax/feed/groupstimeline") != -1 || url.search("/ajax/feed/unreadfriendstimeline") != -1) {
+            this.addEventListener("readystatechange", function () {
+                if (this.readyState === 4) {
+                    const res = JSON.parse(this.responseText);
+                    Object.defineProperty(this, "responseText", {
+                        writable: true,
+                      });
+                    if (res.statuses) {
+                        let statuses = []
+                        res.statuses.forEach(item => {
+                            if (item.promotion === undefined) {
+                                statuses.push(item)
+                            } else {
+                                console.log("去除" + item.text_raw)
+                            }
+                        });
+                        res.statuses = statuses;
+                        this.responseText = JSON.stringify(res);
+                    }
                 }
             });
         }
-    }, 1000);
+        originOpen.apply(this, arguments);
+    }
 }());
