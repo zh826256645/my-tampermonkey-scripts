@@ -5,6 +5,7 @@
 // @description  try to take over the world!
 // @author       西瓜树
 // @match        https://m.hupu.com/bbs/*
+// @match        https://m.hupu.com/bbs-share/*
 // @match        https://item.m.jd.com/product/*
 // @match        https://m.weibo.cn/detail/*
 // @match        https://m.weibo.cn/status/*
@@ -142,7 +143,7 @@
     var hostMappingInfo = {
         'm.hupu.com' : {
             'url': 'https://bbs.hupu.com/{0}.html',
-            'regular': /\/bbs\/(\d*)\.html/,
+            'regular': /\/bbs.*\/(\d*)\.html/,
             'num': 1
         },
         'item.m.jd.com': {
@@ -186,6 +187,8 @@
     // window.onload = function() {
     let currentUrl = window.location.href
     let newUrl = getPCUrl(currentUrl)
+
+    console.log(newUrl)
 
     if (newUrl) {
         window.location.href=newUrl
