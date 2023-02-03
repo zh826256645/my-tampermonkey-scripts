@@ -34,6 +34,23 @@
                     }
                 }
             });
+        } else if (url.search('/ajax/feed/getTipsAd') != -1) {
+            this.addEventListener("readystatechange", function () {
+                if (this.readyState === 4) {
+                    const res = JSON.parse(this.responseText);
+                    Object.defineProperty(this, "responseText", {
+                        writable: true,
+                      });
+                    if (res.data) {
+                        let data = []
+                        res.data.forEach(item => {
+                            console.log("去除" + item.imageurl)
+                        });
+                        res.data = data;
+                        this.responseText = JSON.stringify(res);
+                    }
+                }
+            });
         }
         originOpen.apply(this, arguments);
     }
