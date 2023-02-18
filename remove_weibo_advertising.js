@@ -5,7 +5,7 @@
 // @description  移除浏览关注用户的微博时夹杂的广告
 // @author       XiGuaShu
 // @match        https://weibo.com/*
-// @run-at document-end
+// @run-at document-start
 // ==/UserScript==
 
 (function() {
