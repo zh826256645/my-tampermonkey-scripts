@@ -8,7 +8,7 @@
 // @run-at document-start
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
     const originOpen = XMLHttpRequest.prototype.open;
@@ -19,7 +19,7 @@
                     const res = JSON.parse(this.responseText);
                     Object.defineProperty(this, "responseText", {
                         writable: true,
-                      });
+                    });
                     if (res.statuses) {
                         let statuses = []
                         res.statuses.forEach(item => {
@@ -40,7 +40,7 @@
                     const res = JSON.parse(this.responseText);
                     Object.defineProperty(this, "responseText", {
                         writable: true,
-                      });
+                    });
                     if (res.data) {
                         let data = []
                         res.data.forEach(item => {

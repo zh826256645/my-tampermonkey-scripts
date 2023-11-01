@@ -9,11 +9,12 @@
 // @match        https://item.m.jd.com/product/*
 // @match        https://m.weibo.cn/detail/*
 // @match        https://m.weibo.cn/status/*
+// @match        https://*.m.taobao.com/detail.htm*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
     if (!String.prototype.format) {
@@ -21,9 +22,9 @@
             var args = arguments;
             return this.replace(/{(\d+)}/g, function (match, number) {
                 return typeof args[number] != 'undefined'
-                  ? args[number]
-                  : match
-                ;
+                    ? args[number]
+                    : match
+                    ;
             });
         };
     }
@@ -42,10 +43,9 @@
      * @param {String} str62 62进制值
      * @return {String} 10进制值
      */
-    WeiboUtil.str62to10 = function(str62) {
+    WeiboUtil.str62to10 = function (str62) {
         var i10 = 0;
-        for (var i = 0; i < str62.length; i++)
-        {
+        for (var i = 0; i < str62.length; i++) {
             var n = str62.length - i - 1;
             var s = str62[i];
             i10 += this.str62keys.indexOf(s) * Math.pow(62, n);
@@ -58,7 +58,7 @@
      * @param {String} int10 10进制值
      * @return {String} 62进制值
      */
-    WeiboUtil.int10to62 = function(int10) {
+    WeiboUtil.int10to62 = function (int10) {
         var s62 = '';
         var r = 0;
         while (int10 != 0 && s62.length < 100) {
@@ -74,7 +74,7 @@
      * @param {String} url 微博URL字符，如 "wr4mOFqpbO"
      * @return {String} 微博mid，如 "201110410216293360"
      */
-    WeiboUtil.url2mid = function(url) {
+    WeiboUtil.url2mid = function (url) {
         var mid = '';
 
         for (var i = url.length - 4; i > -4; i = i - 4) //从最后往前以4字节为一组读取URL字符
@@ -85,8 +85,7 @@
 
             str = this.str62to10(str);
             if (offset1 > 0) { //若不是第一组，则不足7位补0
-                while (str.length < 7)
-                {
+                while (str.length < 7) {
                     str = '0' + str;
                 }
             }
@@ -102,12 +101,12 @@
      * @param {String} mid 微博mid，如 "201110410216293360"
      * @return {String} 微博URL字符，如 "wr4mOFqpbO"
      */
-    WeiboUtil.mid2url = function(mid) {
-        if(!mid) {
+    WeiboUtil.mid2url = function (mid) {
+        if (!mid) {
             return mid;
         }
         mid = String(mid); //mid数值较大，必须为字符串！
-        if(!/^\d+$/.test(mid)){ return mid; }
+        if (!/^\d+$/.test(mid)) { return mid; }
         var url = '';
 
         for (var i = mid.length - 7; i > -7; i = i - 7) //从最后往前以7字节为一组读取mid
@@ -123,7 +122,7 @@
         return url;
     };
 
-    WeiboUtil.getPCUrl = function() {
+    WeiboUtil.getPCUrl = function () {
         try {
             const html = document.documentElement.innerHTML
             const mid = html.match(/"mid":\s"(.*?)"/)[1]
@@ -141,7 +140,7 @@
     }
 
     var hostMappingInfo = {
-        'm.hupu.com' : {
+        'm.hupu.com': {
             'url': 'https://bbs.hupu.com/{0}.html',
             'regular': /\/bbs.*\/(\d*)\.html/,
             'num': 1
@@ -154,7 +153,12 @@
         'm.weibo.cn': {
             'regular': /\/(status|detail)\/(.*)/,
             'func': WeiboUtil.getPCUrl
-        }
+        },
+        'new.m.taobao.com': {
+            'url': 'https://item.taobao.com/item.htm?id={0}',
+            'regular': /id=(\d*)/,
+            'num': 1
+        },
     }
 
     // 获取网页的 PC URL
@@ -167,7 +171,7 @@
                 if (info.url) {
                     // 使用 url 中的参数获取 url
                     let urlArgs = new Array()
-                    for (let i=0; i < info.num; i++) {
+                    for (let i = 0; i < info.num; i++) {
                         urlArgs[i] = result[i + 1]
                     }
                     if (urlArgs) {
@@ -191,7 +195,7 @@
     console.log(newUrl)
 
     if (newUrl) {
-        window.location.href=newUrl
+        window.location.href = newUrl
     }
     // }
 })();
