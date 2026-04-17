@@ -22,3 +22,8 @@
 ### 效果
 ![移除前](./imgs/remove_weibo_ad_1.png)
 ![移除后](./imgs/remove_weibo_ad_2.jpg)
+
+## 4. 下载文件名和复制名称保持一致
+给无损音乐下载站点增加下载文件名修正，点击弹窗中的“点击下载”时，实际保存文件名和“复制名称”一致。
+### 脚本
+[music_download_filename_sync.js](./music_download_filename_sync.js)
