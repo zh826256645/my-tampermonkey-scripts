@@ -17,9 +17,11 @@
 	for (let i = 0; i < imgElements.length; i++) {
         const imgElement = imgElements[i];
         const src = imgElement.getAttribute('src');
+        const isImgurUrl = src && (src.startsWith('https://i.imgur.com/') || src.startsWith('https://imgur.com/'));
+        const isGifUrl = isImgurUrl && new URL(src).pathname.toLowerCase().endsWith('.gif');
 
         // 检查 img 标签的 src 是否以 /img/ 开头
-        if (src.startsWith('https://i.imgur.com/') || src.startsWith('https://imgur.com/')) {
+        if (isImgurUrl && !isGifUrl) {
             imgElement.setAttribute('src', `https://img.noobzone.ru/getimg.php?url=${src.replace("https://imgur.com/", "https://i.imgur.com/")}`);
             imgElement.setAttribute('referrerPolicy', 'no-referrer');
         }

@@ -4,7 +4,7 @@
 // @version      0.1
 // @description  移除浏览关注用户的微博时夹杂的广告
 // @author       XiGuaShu
-// @match        https://weibo.com/*
+// @match        https://*.weibo.com/*
 // @run-at document-start
 // ==/UserScript==
 
@@ -13,7 +13,8 @@
 
     const originOpen = XMLHttpRequest.prototype.open;
     XMLHttpRequest.prototype.open = function (_, url) {
-        if (url.search("/ajax/feed/groupstimeline") != -1 || url.search("/ajax/feed/unreadfriendstimeline") != -1) {
+        const requestUrl = String(url);
+        if (requestUrl.includes("/ajax/feed/groupstimeline") || requestUrl.includes("/ajax/feed/unreadfriendstimeline")) {
             this.addEventListener("readystatechange", function () {
                 if (this.readyState === 4) {
                     const res = JSON.parse(this.responseText);
@@ -34,7 +35,7 @@
                     }
                 }
             });
-        } else if (url.search('/ajax/feed/getTipsAd') != -1) {
+        } else if (requestUrl.includes('/ajax/feed/getTipsAd')) {
             this.addEventListener("readystatechange", function () {
                 if (this.readyState === 4) {
                     const res = JSON.parse(this.responseText);

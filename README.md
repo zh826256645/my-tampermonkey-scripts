@@ -27,3 +27,9 @@
 给无损音乐下载站点增加下载文件名修正，点击弹窗中的“点击下载”时，实际保存文件名和“复制名称”一致。
 ### 脚本
 [music_download_filename_sync.js](./music_download_filename_sync.js)
+
+## 5. 替换 Gemini 网页的字体以区分大写 I 和小写 l
+由于 Gemini 网页默认字体难以区分大写字母 `I` 和小写字母 `l`，本脚本将对话消息、提问和输入框字体替换为更易辨识的 Verdana 字体，同时保持代码块的等宽字体并确保系统图标正常显示。
+### 脚本
+[gemini_font_replacer.js](./gemini_font_replacer.js)
+

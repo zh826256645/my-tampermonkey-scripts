@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         无损音乐下载-下载文件名同步
 // @namespace    http://tampermonkey.net/
-// @version      0.1.0
+// @version      0.2.0
 // @description  点击下载时，使用“复制名称”的内容作为保存文件名
 // @author       XiGuaShu
-// @match        https://flac.music.hi.cn/
+// @match        https://flac.music.hi.cn/*
 // @grant        GM_download
 // @connect      *
 // @run-at       document-end
@@ -14,7 +14,7 @@
     'use strict';
 
     function isTargetPage() {
-        return document.title.includes('无损音乐下载') || Boolean(document.querySelector('#brModal, #download_music'));
+        return location.hostname === 'flac.music.hi.cn';
     }
 
     function sanitizeFileName(name) {
@@ -40,6 +40,18 @@
         return nameItem ? nameItem.textContent.replace(/^名称：/, '').trim() : '';
     }
 
+    function getLabeledText(container, label) {
+        if (!container) {
+            return '';
+        }
+
+        const matchedText = Array.from(container.querySelectorAll('li, span, strong, p'))
+            .map(node => node.textContent.trim())
+            .find(text => text.startsWith(label));
+
+        return matchedText ? matchedText.replace(label, '').trim() : '';
+    }
+
     function getFormatFromCard(card) {
         if (!card) {
             return '';
@@ -61,6 +73,23 @@
         }
 
         return format || 'mp3';
+    }
+
+    function findModalDownloadLink(target) {
+        const link = target.closest('a');
+        if (!link || link.textContent.trim() !== '点击下载') {
+            return null;
+        }
+
+        return link.closest('.ant-modal') ? link : null;
+    }
+
+    function getNameFromModal(link) {
+        return getLabeledText(link.closest('.ant-modal'), '名称：');
+    }
+
+    function getFormatFromModal(link) {
+        return getLabeledText(link.closest('.ant-modal'), '格式：').toLowerCase();
     }
 
     function triggerBrowserDownload(url, fileName) {
@@ -91,6 +120,22 @@
 
     document.addEventListener('click', function (event) {
         if (!isTargetPage()) {
+            return;
+        }
+
+        const modalDownloadLink = findModalDownloadLink(event.target);
+        if (modalDownloadLink) {
+            const rawName = getNameFromModal(modalDownloadLink);
+            if (!rawName) {
+                return;
+            }
+
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            const extension = getExtension(modalDownloadLink.href, getFormatFromModal(modalDownloadLink));
+            const fileName = sanitizeFileName(`${rawName}.${extension}`);
+            downloadWithTargetName(modalDownloadLink.href, fileName);
             return;
         }
 
