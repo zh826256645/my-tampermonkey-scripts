@@ -33,3 +33,7 @@
 ### 脚本
 [gemini_font_replacer.js](./gemini_font_replacer.js)
 
+## 6. Medium 免费阅读跳转
+在 Medium 页面右下角增加“免费阅读”按钮，点击后跳转到对应的 Freedium 镜像页面。
+### 脚本
+[medium_free_link.js](./medium_free_link.js)
