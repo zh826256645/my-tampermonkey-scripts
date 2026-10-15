@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         百度-导航栏-透明
 // @namespace    http://tampermonkey.net/
-// @version      0.2.0
+// @version      0.2.1
 // @description  调节百度首页内容卡片的背景透明度，适配新版热搜卡片并记住设置
 // @author       XiGuaShu
 // @match        https://www.baidu.com/*
@@ -44,7 +44,7 @@
         #${controlId} {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 0;
             float: right;
             position: relative;
             z-index: 1;
@@ -52,22 +52,47 @@
             height: 28px;
             /* 给新版热搜右侧的“换一换”留出位置。 */
             margin: 0 88px 0 12px;
-            padding: 0 8px;
+            padding: 0;
             border-radius: 14px;
-            background: rgba(255, 255, 255, .8);
+            background: transparent;
             font-size: 12px;
             line-height: normal;
             color: #333;
+            cursor: pointer;
+        }
+        #${controlId} span {
+            display: none;
         }
         #${controlId} input {
-            width: 90px;
+            /* 保留键盘焦点入口，聚焦后自动展开。 */
+            width: 0;
             max-width: 20vw;
             margin: 0;
+            padding: 0;
+            opacity: 0;
+            pointer-events: none;
             cursor: pointer;
             accent-color: #4e6ef2;
         }
+        #${controlId}:hover,
+        #${controlId}:focus-within {
+            gap: 6px;
+            padding: 0 8px;
+            background: rgba(255, 255, 255, .8);
+        }
+        #${controlId}:hover span,
+        #${controlId}:focus-within span {
+            display: inline;
+        }
+        #${controlId}:hover input,
+        #${controlId}:focus-within input {
+            width: 90px;
+            opacity: 1;
+            pointer-events: auto;
+        }
         #${controlId} output {
             min-width: 4ch;
+            text-align: right;
             font-variant-numeric: tabular-nums;
         }
     `);
@@ -98,6 +123,7 @@
 
             control = document.createElement('label');
             control.id = controlId;
+            control.title = '背景不透明度：移入或点击后调节';
             control.innerHTML = '<span>背景</span><input type="range" min="0" max="100" step="1" aria-label="背景不透明度" title="0% 完全透明，100% 不透明"><output></output>';
             control.querySelector('input').addEventListener('input', event => {
                 opacity = clamp(Number(event.target.value));
