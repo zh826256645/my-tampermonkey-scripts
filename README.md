@@ -39,3 +39,8 @@
 在 Medium 页面右下角增加“免费阅读”按钮，点击后跳转到对应的 Freedium 镜像页面。
 ### 脚本
 [medium_free_link.js](./medium_free_link.js)
+
+## 7. 腾讯频道监控上报死循环修复
+广告拦截器阻断腾讯频道的 Aegis 遥测上报后，监控 SDK 会把“上报失败”再次上报，造成每秒数千次请求和 CPU 占用飙升。本脚本拦截该遥测请求并直接返回成功响应，避免死循环。
+### 脚本
+[qq_channel_aegis_report_loop_fix.js](./qq_channel_aegis_report_loop_fix.js)
