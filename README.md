@@ -2,6 +2,8 @@
 
 ## 1. 给百度页面增加透明效果
 自定义的百度本来是可以调节透明度的，后来不知道什么原因去掉了这个功能，只能自己来动手了
+
+首页卡片右上角默认只显示背景不透明度百分比，鼠标移入或键盘聚焦后展开“背景”滑块（0% 完全透明，100% 不透明），文字保持清晰。设置会自动保存，支持新版热搜卡片、键盘方向键调节及卡片动态加载。
 ### 脚本
 [change_baidu_navigation_bar.js](./change_baidu_navigation_bar.js)
 ### 效果
@@ -37,3 +39,8 @@
 在 Medium 页面右下角增加“免费阅读”按钮，点击后跳转到对应的 Freedium 镜像页面。
 ### 脚本
 [medium_free_link.js](./medium_free_link.js)
+
+## 7. 腾讯频道监控上报死循环修复
+广告拦截器阻断腾讯频道的 Aegis 遥测上报后，监控 SDK 会把“上报失败”再次上报，造成每秒数千次请求和 CPU 占用飙升。本脚本拦截该遥测请求并直接返回成功响应，避免死循环。
+### 脚本
+[qq_channel_aegis_report_loop_fix.js](./qq_channel_aegis_report_loop_fix.js)
