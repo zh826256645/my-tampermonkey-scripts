@@ -44,3 +44,8 @@
 广告拦截器阻断腾讯频道的 Aegis 遥测上报后，监控 SDK 会把“上报失败”再次上报，造成每秒数千次请求和 CPU 占用飙升。本脚本拦截该遥测请求并直接返回成功响应，避免死循环。
 ### 脚本
 [qq_channel_aegis_report_loop_fix.js](./qq_channel_aegis_report_loop_fix.js)
+
+## 8. 隐藏 X 的“为你推荐”
+隐藏 X 首页顶部的“为你推荐”标签，并在页面默认选中推荐流时自动切换到“正在关注”。
+### 脚本
+[x_hide_for_you_tab.js](./x_hide_for_you_tab.js)
