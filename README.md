@@ -49,3 +49,8 @@
 隐藏 X 首页顶部的“为你推荐”标签，并在页面默认选中推荐流时自动切换到“正在关注”。
 ### 脚本
 [x_hide_for_you_tab.js](./x_hide_for_you_tab.js)
+
+## 9. 隐藏 linux.do 的“运营反馈”帖子
+从 linux.do 帖子列表中隐藏类别为“运营反馈”的话题，支持滚动加载和站内切页；直接进入该分类页时不过滤。
+### 脚本
+[linux_do_hide_feedback.js](./linux_do_hide_feedback.js)
