@@ -54,3 +54,8 @@
 从 linux.do 帖子列表中隐藏类别为“运营反馈”的话题，支持滚动加载和站内切页；直接进入该分类页时不过滤。
 ### 脚本
 [linux_do_hide_feedback.js](./linux_do_hide_feedback.js)
+
+## 10. B 站顶部“动态”弹框定时刷新
+每 60 秒刷新 B 站顶部“动态”图标打开的弹框，更新正在直播与历史动态内容，不重载当前页面。
+### 脚本
+[bilibili_dynamic_auto_refresh.js](./bilibili_dynamic_auto_refresh.js)
